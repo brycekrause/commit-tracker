@@ -11,8 +11,10 @@ driver.implicitly_wait(5)
 
 parent = driver.find_element(By.CLASS_NAME, 'js-calendar-graph') 
 children = parent.find_elements(By.CSS_SELECTOR, "*")
+
 streak = 0
 data = []
+
 def getMonth(month):
     if month == "January":
         month = 1
@@ -54,23 +56,26 @@ for child in children:
             month = element_text[3]
             month = getMonth(month)
 
-            day = element_text[4].rstrip('th.')
+            if "th." in element_text[4]:
+                day = element_text[4].rstrip('th.')
+            elif "rd." in element_text[4]:
+                day = element_text[4].rstrip('rd.')
             commits = element_text[0]
 
-            info_dict = {'month': month, 'day': day, 'commits': commits}
+            info_dict = {'month': int(month), 'day': int(day), 'commits': int(commits)}
             data.append(info_dict)
 
-            print(f"{col}:{row}: {commits} commits on {month}/{day}")
-
-info_dict = {'month': 6, 'day': 7, 'commits': 4}
-data.append(info_dict)
-
-
 data.sort(key=lambda x: (x['month'], x['day']))
+length = len(data)
 
-for i in data:
-    print(i)
 
+for i in range(1, length):
+    if data[i]['day'] == data[i-1]['day']+1:
+        streak += 1
+    else:
+        streak = 1
+
+print("Current streak: " + str(streak))
 
 
 driver.quit()
