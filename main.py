@@ -2,9 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver 
 
-url = "https://github.com/brycekrause" # Replace 'username' with the GitHub username 
-response = requests.get(url) 
-html_content = response.text 
+url = "https://github.com/brycekrause"
+
+driver = webdriver.Firefox()
+driver.get(url)
+
+html_content = driver.page_source
+driver.quit()
 
 soup = BeautifulSoup(html_content, 'html.parser') # Extract the number of repositories 
 
