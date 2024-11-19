@@ -1,27 +1,18 @@
 import requests 
-from bs4 import BeautifulSoup
-from selenium import webdriver 
+from selenium.webdriver.common.by import By
+from selenium import webdriver
 
 url = "https://github.com/brycekrause"
 
 driver = webdriver.Firefox()
 driver.get(url)
 
-html_content = driver.page_source
+driver.implicitly_wait(5)
+
+parent = driver.find_element(By.CLASS_NAME, 'js-calendar-graph') 
+children = parent.find_elements(By.CSS_SELECTOR, "*")
+for child in children:
+    if child.tag_name == "tool-tip":
+        print(f"{child.get_attribute('for')}: {child.text}")
+
 driver.quit()
-
-soup = BeautifulSoup(html_content, 'html.parser') # Extract the number of repositories 
-
-#element = soup.find('span', {'class': 'ml-2'})
-#element = soup.find('td', {'class': 'ContributionCalendar-day'})
-
-parent = soup.find('tbody')
-#elements = soup.find_all(class_= 'ContributionCalendar-day')
-#attributes = element.attrs
-
-if parent:
-    print('parent found')
-    children = parent.find_all(class_= 'ContributionCalendar-day')
-    for element in children:
-        print(element)
-#print(attributes)
