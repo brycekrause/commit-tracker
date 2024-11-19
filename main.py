@@ -13,9 +13,7 @@ parent = driver.find_element(By.CLASS_NAME, 'js-calendar-graph')
 children = parent.find_elements(By.CSS_SELECTOR, "*")
 for child in children:
     if child.tag_name == "tool-tip":
-        if "No " in child.text:
-            pass
-        else:
+        if "No " not in child.text:
             print(f"{child.get_attribute('for')}: {child.text}")
 
 
