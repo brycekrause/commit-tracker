@@ -45,25 +45,28 @@ def getMonth(month):
 
 for child in children:
     if child.tag_name == "tool-tip":
-        if "No " not in child.text:
-            element = child.get_attribute('for').split('-')
+        element = child.get_attribute('for').split('-')
+        
+        row = element[3]
+        col = element[4]
 
-            row = element[3]
-            col = element[4]
+        element_text = child.text.split(' ')
 
-            element_text = child.text.split(' ')
+        month = getMonth(element_text[3])
 
-            month = element_text[3]
-            month = getMonth(month)
+        if "th." in element_text[4]:
+            day = element_text[4].rstrip('th.')
+        elif "rd." in element_text[4]:
+            day = element_text[4].rstrip('rd.')
 
-            if "th." in element_text[4]:
-                day = element_text[4].rstrip('th.')
-            elif "rd." in element_text[4]:
-                day = element_text[4].rstrip('rd.')
+        if element_text[0] == "No":
+            commits = 0
+        else:
             commits = element_text[0]
-
-            info_dict = {'month': int(month), 'day': int(day), 'commits': int(commits)}
-            data.append(info_dict)
+        info_dict = {'month': int(month), 'day': int(day), 'commits': int(commits)}
+        
+        print(f"{row}:{col} = {info_dict}")
+        data.append(info_dict)
 
 data.sort(key=lambda x: (x['month'], x['day']))
 length = len(data)
