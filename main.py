@@ -71,7 +71,7 @@ for child in children:
 data.sort(key=lambda x: (x['month'], x['day']))
 length = len(data)
 
-# TODO: read from end of data and bo backwards.
+# TODO: read from end of data and go backwards.
 # any breaks in contributions, evaluate the streak.
 # check if most recent day has contribution. if not, let user know.
 for i in range(1, length):
