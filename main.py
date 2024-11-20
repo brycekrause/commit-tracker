@@ -63,15 +63,15 @@ for child in children:
             commits = 0
         else:
             commits = element_text[0]
-        info_dict = {'month': int(month), 'day': int(day), 'commits': int(commits)}
+        info_dict = {'row': int(row), 'col': int(col), 'month': int(month), 'day': int(day), 'commits': int(commits)}
         
-        print(f"{row}:{col} = {info_dict}")
+        print(f"{info_dict}")
         data.append(info_dict)
 
 data.sort(key=lambda x: (x['month'], x['day']))
 length = len(data)
 
-# TODO: read from end of data and go backwards.
+# TODO: read from end of data and go backwards. (probably by row:col)
 # any breaks in contributions, evaluate the streak.
 # check if most recent day has contribution. if not, let user know.
 for i in range(1, length):
